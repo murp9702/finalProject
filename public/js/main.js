@@ -25,9 +25,15 @@ var vm = new Vue({
     methods: {
 
         // the on change passes the selected item into function as `val`
-        alert(val) {
+        alert: function(val) {
             console.log(val.label);
             console.log(vm.zipCode)
+        },
+        postData: function() {
+            $.post("/postData", {zipCode:vm.zipCode}, function(req,res){
+                console.log(vm.zipCode)
+                console.log(req)
+            })
         }
     }
 })

@@ -1,6 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose')
+var bodyParser = require('body-parser')
+
+// mongoose schemas
+var firstFrostSchema = mongoose.Schema({
+    stationID: String,
+    firstFrost: String
+})
+var zipcodeSchema = mongoose.Schema({
+    stationID: String,
+    zipcode: Number,
+    city: String
+})
+
+// mongoose models
+var ZipCode = mongoose.model('zipcode', zipcodeSchema, 'zipcode')
+var FirstFrost = mongoose.model('firstFrost', firstFrostSchema, 'firstFrost')
 
 // route for homepage
 router.get('/', function (req, res) {
@@ -10,27 +26,19 @@ router.get('/', function (req, res) {
 })
 
 
-router.get('/getData', function (req,res){
-    
-    var firstFrostSchema = mongoose.Schema({
-        name: String
+router.post('/postData', function (req,res){
+    console.log("req.body:", req.body.zipCode)
+
+    ZipCode.findOne({zipcode: Number(req.body.zipCode)}, function (err, zipCodeObject){
+        console.log('zipcode:', zipCodeObject.zipcode)
+        console.log('city:', zipCodeObject.city)
+        console.log('stationID:', zipCodeObject.stationID)
+        
     })
-
-
-    // what is the first argument doing here? the third argument gives access to the existing database.
-    var FirstFrost = mongoose.model('firstFrost', firstFrostSchema, 'firstFrost')
-
 
     FirstFrost.findOne({stationID: 'USC00018438'}, function (err, firstFrostObject) {
-        // can access firstFrostObject, object is returned
-        console.log(firstFrostObject)
-        // firstFrostObject.stationID & .firstFrost return undefined
-        console.log(firstFrostObject.stationID)
-    })
-
-    
-    
-    
+        console.log('stationID', firstFrostObject.stationID)
+    })    
     res.send("heading your way")
 })
 

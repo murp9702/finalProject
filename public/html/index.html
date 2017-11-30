@@ -13,12 +13,12 @@
 <body>
     <div id="app">
 
-        <form action="/api" method="GET">
-            <button type="submit">Submit</button>
-        </form>
+
+
 
         <form>
             <input type="text" v-model="zipCode">
+            <button type="submit" @click.prevent="postData">Submit</button>
         </form>
 
         <v-select :value.sync="selected" :on-change="alert" :options="veggies"></v-select>
