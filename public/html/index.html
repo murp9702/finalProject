@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Happy Little Plants</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.1/vue.js"></script>
+    <!-- use the latest release -->
+    <!-- or point to a specific release -->
+    <script src="https://unpkg.com/vue-select@2.3.0"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <form action="/api" method="GET">
+            <button type="submit">Submit</button>
+        </form>
+
+        <form>
+            <input type="text" v-model="zipCode">
+        </form>
+
+        <v-select :value.sync="selected" :on-change="alert" :options="veggies"></v-select>
+
+    </div>
+
+
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
