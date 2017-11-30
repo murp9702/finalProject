@@ -30,9 +30,9 @@ var vm = new Vue({
             console.log(vm.zipCode)
         },
         postData: function() {
-            $.post("/postData", {zipCode:vm.zipCode}, function(req,res){
+            $.post("/postData", {zipCode:vm.zipCode}, function(dataFromServer){
                 console.log(vm.zipCode)
-                console.log(req)
+                console.log(dataFromServer)
             })
         }
     }
