@@ -21,8 +21,9 @@
             <button type="submit" @click.prevent="postData">Submit</button>
         </form>
 
-        <v-select :value.sync="selected" :on-change="alert" :options="veggies"></v-select>
+        <button @click="doStuff">click</button>
 
+        <v-select :value.sync="selected" :on-change="alert" :options="veggies"></v-select>
     </div>
 
 

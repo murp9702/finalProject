@@ -2,28 +2,9 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
+var Database = require('./database')
 
-// mongoose schemas
-var firstFrostSchema = mongoose.Schema({
-    stationID: String,
-    firstFrost: String
-})
 
-var zipcodeSchema = mongoose.Schema({
-    stationID: String,
-    zipcode: Number,
-    city: String
-})
-
-var lastFrostSchema = mongoose.Schema({
-    stationID: String,
-    lastFrost: String
-})
-
-// mongoose models
-var ZipCode = mongoose.model('zipcode', zipcodeSchema, 'zipcode')
-var FirstFrost = mongoose.model('firstFrost', firstFrostSchema, 'firstFrost')
-var LastFrost = mongoose.model('lastFrost', lastFrostSchema, 'lastFrost')
 
 // route for homepage
 router.get('/', function (req, res) {
@@ -44,7 +25,7 @@ router.post('/postData', function (req, res) {
         lastFrostDate: ''
     }
     // get station id based on user zipcode input
-    ZipCode.findOne({
+    Database.ZipCode.findOne({
             zipcode: Number(req.body.zipCode)
         },
         function (err, zipCodeObject) {
@@ -55,14 +36,14 @@ router.post('/postData', function (req, res) {
             firstAndLastObject.city = zipCodeObject.city
             firstAndLastObject.stationID = zipCodeObject.stationID
 
-            FirstFrost.findOne({
+            Database.FirstFrost.findOne({
                     stationID: zipCodeObject.stationID
                 },
                 function (err, firstFrostObject) {
                     console.log('firstFrostObject:', firstFrostObject)
                     firstAndLastObject.firstFrostDate = firstFrostObject.firstFrost
                 })
-            LastFrost.findOne({
+            Database.LastFrost.findOne({
                     stationID: zipCodeObject.stationID
                 },
                 function (err, lastFrostObject) {
