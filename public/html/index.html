@@ -23,7 +23,7 @@
         <div>{{displayDate}}</div>
 
 
-        <v-select :value.sync="selected" :on-change="alert" :options="veggies"></v-select>
+        <v-select :value.sync="selected" :on-change="checkMaturity" :options="veggies"></v-select>
     </div>
 
 

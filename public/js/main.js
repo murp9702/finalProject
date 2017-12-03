@@ -9,12 +9,16 @@ var vm = new Vue({
         veggies: [{
                 // name of vegetable
                 label: "tomato",
+                daysToMaturity: 55
             },
             {
                 label: "bean",
+                daysToMaturity: 40
             },
             {
-                label: "pea"
+                label: "pea",
+                daysToMaturity: 28
+
             },
         ],
         displayDate: null,
@@ -77,19 +81,24 @@ var vm = new Vue({
                     lastFrost.setFullYear(currentYear, lastFrostMonth, lastFrostDay)
                 }
             }
+            this.locationInfo.firstFrostDate = firstFrost
+            this.locationInfo.lastFrostDate = lastFrost
 
-            // console.log ({
-            //     currentYear: currentYear,
-            //     firstFrostDate: firstFrostDate,
-            //     firstDay: firstFrostDay,
-            //     firstMonth: firstFrostMonth,
-            //     lastFrostDate: lastFrostDate,
-            //     lastDay: lastFrostDay,
-            //     lastMonth: lastFrostMonth,
-            //     firstDateObject: firstFrost,
-            //     lastDateObject: lastFrost
-            // })
         },
+        checkMaturity: function(crop) {
+            let firstFrostDate = this.locationInfo.firstFrostDate
+            let lastFrostDate = this.locationInfo.lastFrostDate
+            let todaysDate = new Date()
+            let maturityMath = todaysDate.setDate(todaysDate.getDate() + crop.daysToMaturity)
+            let maturityDate = new Date(maturityMath)
+            console.log({
+                date: typeof date,
+                name: crop.label,
+                dtm: crop.daysToMaturity,
+                newDate: maturityDate
+            })
+
+        }
 
     }
 
