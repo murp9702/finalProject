@@ -20,7 +20,7 @@
             <input type="text" v-model="zipCode">
             <button type="submit" @click.prevent="postData">Submit</button>
         </form>
-
+        <div>{{displayDate}}</div>
         <button @click="doStuff">click</button>
 
         <v-select :value.sync="selected" :on-change="alert" :options="veggies"></v-select>

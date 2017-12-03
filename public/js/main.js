@@ -19,6 +19,7 @@ var vm = new Vue({
                 label: "pea"
             },
         ],
+        displayDate: null,
         // data to display in dropdown before user input
         selected: "Please select an option"
     },
@@ -30,17 +31,23 @@ var vm = new Vue({
             console.log(val.label)
             console.log(this.zipCode)
             console.log(this.locationInfo)
+            this.displayDate = this.locationInfo.firstFrostDate
         },
         postData: function() {
             $.post("/postData", {zipCode:this.zipCode}, (dataFromServer) => {
+                
                 console.log(this.zipCode)
                 console.log(dataFromServer)
                 this.locationInfo = dataFromServer
                 console.log('this.locationInfo', this.locationInfo)
             })
         },
-        doStuff: function() {
-            console.log('location info', vm.locationInfo)
+        setDate: function(dateFromDatabase) {
+        let date = new Date()
+        let month = dateFromDatabase.split('').splice(2).join('')
+        console.log("new month:", month)
+    }
+            
         }
     }
 })
