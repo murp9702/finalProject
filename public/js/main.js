@@ -1,4 +1,3 @@
-
 Vue.component('v-select', VueSelect.VueSelect)
 
 var vm = new Vue({
@@ -7,8 +6,7 @@ var vm = new Vue({
         locationInfo: null,
         zipCode: null,
         // data for veggies
-        veggies: [
-            {
+        veggies: [{
                 // name of vegetable
                 label: "tomato",
             },
@@ -27,28 +25,73 @@ var vm = new Vue({
     methods: {
 
         // the on change passes the selected item into function as `val`
-        alert: function(val) {
+        alert: function (val) {
             console.log(val.label)
             console.log(this.zipCode)
             console.log(this.locationInfo)
             this.displayDate = this.locationInfo.firstFrostDate
         },
-        postData: function() {
-            $.post("/postData", {zipCode:this.zipCode}, (dataFromServer) => {
-                
+        postData: function () {
+            $.post("/postData", {
+                zipCode: this.zipCode
+            }, (dataFromServer) => {
+
                 console.log(this.zipCode)
                 console.log(dataFromServer)
                 this.locationInfo = dataFromServer
                 console.log('this.locationInfo', this.locationInfo)
+                this.setDate(dataFromServer)
             })
         },
-        setDate: function(dateFromDatabase) {
-        let date = new Date()
-        let month = dateFromDatabase.split('').splice(2).join('')
-        console.log("new month:", month)
+        setDate: function (dateFromDatabase) {
+            // make new date object with current date
+            let date = new Date()
+            let currentYear = date.getFullYear();
+            // split string from database into usable parts to build a new date object, need day and month seperated for the first and last frost
+            // firstFrost whole date
+            let firstFrostDate = dateFromDatabase.firstFrostDate.split('').slice(0, 5).join('')
+            // first frost month 
+            let firstFrostMonth = Number((firstFrostDate.split('').slice(0, 2).join('')) - 1)
+            // first frost day
+            let firstFrostDay = firstFrostDate.split('').slice(3).join('')
+            // last frost whole date
+            let lastFrostDate = dateFromDatabase.lastFrostDate.split('').slice(0, 5).join('')
+            // last frost month
+            let lastFrostMonth = Number((lastFrostDate.split('').slice(0, 2).join('')) - 1)
+            // last frost day
+            let lastFrostDay = lastFrostDate.split('').slice(3).join('')
+
+            let firstFrost = new Date()
+            firstFrost.setFullYear(currentYear, firstFrostMonth, firstFrostDay)
+            let lastFrost = new Date()
+            lastFrost.setFullYear(currentYear, lastFrostMonth, lastFrostDay)
+
+            // check to see if user is currently able to grow.
+            if (date > firstFrost || date < lastFrost) {
+                //  If after first frost, but not in a new year, increase current year by one for next years garden planning.
+                // if before last frost but in new year no changes need to be made.
+                if (date.getMonth() > firstFrost.getMonth()) {
+                    console.log("winter is here")
+                    currentYear++
+                    firstFrost.setFullYear(currentYear, firstFrostMonth, firstFrostDay)
+                    lastFrost.setFullYear(currentYear, lastFrostMonth, lastFrostDay)
+                }
+            }
+
+            // console.log ({
+            //     currentYear: currentYear,
+            //     firstFrostDate: firstFrostDate,
+            //     firstDay: firstFrostDay,
+            //     firstMonth: firstFrostMonth,
+            //     lastFrostDate: lastFrostDate,
+            //     lastDay: lastFrostDay,
+            //     lastMonth: lastFrostMonth,
+            //     firstDateObject: firstFrost,
+            //     lastDateObject: lastFrost
+            // })
+        },
+
     }
-            
-        }
-    }
+
 })
 console.log("here")
