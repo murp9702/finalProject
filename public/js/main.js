@@ -75,24 +75,40 @@ var vm = new Vue({
                 //  If after first frost, but not in a new year, increase current year by one for next years garden planning.
                 // if before last frost but in new year no changes need to be made.
                 if (date.getMonth() > firstFrost.getMonth()) {
-                    console.log("winter is here")
-                    currentYear++
+                    console.log("planning for next year")
+                    // currentYear++
                     firstFrost.setFullYear(currentYear, firstFrostMonth, firstFrostDay)
                     lastFrost.setFullYear(currentYear, lastFrostMonth, lastFrostDay)
                 }
             }
+            // set the date on the vm
             this.locationInfo.firstFrostDate = firstFrost
             this.locationInfo.lastFrostDate = lastFrost
 
         },
-        checkMaturity: function(crop) {
+        checkMaturity: function (crop) {
             let firstFrostDate = this.locationInfo.firstFrostDate
             let lastFrostDate = this.locationInfo.lastFrostDate
+            // add the selected vegetables DTM to the current date
             let todaysDate = new Date()
             let maturityMath = todaysDate.setDate(todaysDate.getDate() + crop.daysToMaturity)
+            // turn maturityMath date into formatted string, maturityMath outputs time in mS
             let maturityDate = new Date(maturityMath)
+
+            // if the maturity date is before the first frost, the crop can grow
+            if (maturityDate <= firstFrostDate) {
+                console.log("You can grow")
+                console.log({
+                    maturityDate: maturityDate,
+                    firstFrostDate: firstFrostDate
+                })
+            }
+            // if season is too short to grow a crop
+            else {
+                console.log('season too short')
+            }
+
             console.log({
-                date: typeof date,
                 name: crop.label,
                 dtm: crop.daysToMaturity,
                 newDate: maturityDate
