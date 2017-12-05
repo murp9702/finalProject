@@ -101,8 +101,7 @@ var vm = new Vue({
 
             },
         ],
-        currentVarieties: [
-        ],
+        currentVarieties: [],
         displayDate: null,
         // data to display in dropdown before user input
         selected: "Please select an option"
@@ -122,7 +121,8 @@ methods: {
             label: this.veggies[index].varieties,
             // variety: val.lablel,
         })
-        this.currentVarieties.push(this.veggies[index].varieties)
+        vm.currentVarieties = []
+        vm.currentVarieties.push(this.veggies[index].varieties)
         // this.displayDate = this.locationInfo.firstFrostDate
     },
     postData: function () {
@@ -206,6 +206,11 @@ methods: {
 
     }
 
+},
+computed: {
+    returnVariety: function() {
+        return this.currentVarieties
+    }
 }
 
 })

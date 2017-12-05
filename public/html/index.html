@@ -35,7 +35,7 @@
         <div class="vegetableList">
             <ul>
                 <li v-for="(vegetable, index) in veggies" @click="alert(index)">
-                    <router-link :to="{path:'/vegetable/' + vegetable.label}"> {{vegetable.label}} </router-link>
+                    <a> {{vegetable.label}} </a>
                 </li>
             </ul>
         </div>
@@ -53,7 +53,11 @@
 
 
         <div class="varietyList">
-            <router-view></router-view>
+            <div v-for="array in currentVarieties">
+                <div v-for="variety in array">
+                    <div>{{variety.name}}</div>
+                </div>
+            </div>
         </div>
 
 
