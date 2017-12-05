@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+}
+#app {
+    display: grid;
+    /* grid-template-rows: .25fr 1fr; */
+    grid-template-columns: .33fr .6fr 1fr;
+    grid-template-areas: "logoTitleBar searchBar searchBar" 
+                         "vegetableList varietyList calendarView";
+
+    grid-auto-rows: minmax(.33fr,1fr);
+    margin: 0;
+    
+}
+
+#app>div {
+    border: .5px solid rgba(173, 173, 173,0.5);
+    padding: 5px;
+}
+
+.logoTitleBar {
+    grid-area: logoTitleBar;
+    display: grid;
+    grid-template-columns: .33fr 1fr;
+    font-family: 'BioRhyme',
+    serif;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+    background-color: green
+
+}
+
+.searchBar {
+    grid-area: searchBar;
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+    justify-items: left;
+    align-items: center;
+}
+
+.vegetableList {
+    grid-area: vegetableList;
+    background-color: rgb(68, 68, 68);
+    color: whitesmoke;
+    font-family: 'BioRhyme', serif;
+    font-size: 1.5rem;
+}
+
+.varietyList {
+    grid-area: varietyList;
+}
+
+.calendarView {
+    grid-area: calendarView;
+}
+
+input {
+    line-height: normal;
+}
+
+input[type=search] {
+    color: red;
+    text-align: left;
+    cursor: pointer;
+    display: block;
+    width: 20%;
+    letter-spacing: 4px;
+    /* text-shadow: 0 0 2px black; */
+    word-spacing: 20px;
+}
+
+.fa-search:before {
+    content: "\f002";
+}
+
+:after,:before {
+    box-sizing: border-box;
+}
+
+
+.form-control {
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    color: #626c70;
+    outline: none;
+    padding: 0 12px;
+    border-radius: 15px;
+    font-size: .9rem;
+    height: 30px;
+    padding-left: 34px;
+    width: 300px;
+}
+
+.input-group .fa {
+    color: rgba(98,108,112,.5);
+    position: relative;
+    top: 0px;
+    left: 30px;
+    z-index: 11;
+}
+
+.fa {
+    
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+}

@@ -3,30 +3,181 @@
 
 <head>
     <title>Happy Little Plants</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=BioRhyme" rel="stylesheet">
+
+    <script src="https://use.fontawesome.com/d90ff684c8.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.1/vue.js"></script>
     <!-- use the latest release -->
     <!-- or point to a specific release -->
     <script src="https://unpkg.com/vue-select@2.3.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.js"></script>
 </head>
 
 <body>
     <div id="app">
+        <div class="logoTitleBar">
+            <i class="fa fa-leaf fa-2x" aria-hidden="true"></i>
+            <div> Easier Gardens </div>
+        </div>
+
+        <div class="searchBar">
+
+            <div class="input-group margin-bottom-sm">
+                <span class="input-group-addon">
+                    <i class="fa fa-search fa-fw" aria-hidden="true"></i>
+                    <input class="form-control" type="text" placeholder="Search for Seeds">
+                </span>
+            </div>
+
+        </div>
+        <div class="vegetableList">
+            <ul>
+                <li v-for="(vegetable, index) in veggies" @click="alert(index)">
+                    <router-link :to="{path:'/vegetable/' + vegetable.label}"> {{vegetable.label}} </router-link>
+                </li>
+            </ul>
+        </div>
 
 
 
 
-        <form>
-            <input type="text" v-model="zipCode">
-            <button type="submit" @click.prevent="postData">Submit</button>
-        </form>
-        <div>{{displayDate}}</div>
 
 
-        <v-select :value.sync="selected" :on-change="checkMaturity" :options="veggies"></v-select>
+
+
+
+
+
+
+
+        <div class="varietyList">
+            <router-view></router-view>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="calendarView">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi quidem nostrum atque! Molestiae voluptatum nesciunt
+            illum consectetur laborum nam, quia temporibus suscipit similique aliquam architecto ipsa fuga! Laudantium necessitatibus
+            aliquid, quos fugiat explicabo animi doloribus rerum vel blanditiis illum atque officiis exercitationem temporibus
+            assumenda nobis, voluptates esse, est et tenetur id expedita! Sint iste, laudantium fuga quo ipsam harum voluptas
+            ea. Sapiente deserunt quibusdam illum voluptates incidunt nesciunt, saepe optio iste at nihil voluptas, soluta
+            vero iusto provident quas ea repellendus excepturi iure architecto ut sequi sint, dolorum error. Sapiente velit
+            temporibus distinctio veritatis ipsam nostrum accusantium iure quibusdam sunt in ad quas recusandae, rerum, maxime
+            eum deserunt aspernatur necessitatibus laborum vero excepturi hic expedita sint ab inventore. Placeat, cupiditate,
+            eligendi nobis id laudantium quae eos quod quia pariatur esse similique adipisci ratione minima illum repellendus
+            impedit quo, tenetur harum consectetur minus repudiandae dolorum doloremque voluptate. Voluptate, odit voluptas.
+            Mollitia, ea ipsa. Facilis, dicta quaerat. Beatae, sit. Magnam fugit accusantium, molestiae soluta explicabo
+            eum quis doloremque in? Consequuntur a voluptatum maxime, quia magni hic quis aperiam ratione laboriosam non
+            nemo, blanditiis accusantium quibusdam. Tempore possimus accusantium harum est nisi maxime incidunt recusandae
+            maiores quasi placeat odit, necessitatibus, quod molestiae error, numquam qui commodi repellendus in ducimus?
+            Itaque eveniet optio totam vitae minima quisquam unde odit nulla inventore voluptatum ad soluta corrupti, consectetur
+            ab laborum illum, fugit quam aperiam harum veniam adipisci. Iure inventore sunt dolores. Laborum sequi quisquam
+            possimus sapiente delectus facere cupiditate sint illum reiciendis vitae maiores corporis fugit rerum dolore,
+            amet voluptatum earum voluptatibus aliquid autem! Quas mollitia facilis fugit cupiditate quisquam quod non praesentium
+            quae neque, harum laborum, beatae maiores voluptatem tenetur consequatur expedita possimus sunt sit in officiis
+            a dolore dolores voluptas unde. Officia et corporis vero est quidem eaque, similique quasi eveniet, veniam labore
+            fuga ducimus quo commodi, quia odit pariatur! Itaque libero adipisci aliquid voluptate quisquam quidem quod,
+            quasi aperiam fugit qui, quos repellendus atque ex delectus blanditiis dolores maiores. Fugiat, repellendus sequi.
+            Officiis incidunt odit asperiores odio itaque, cum velit, a vero error non eum consequuntur quasi quod beatae
+            corporis. Autem aliquam obcaecati unde hic accusamus? Itaque sequi officia error magnam reiciendis veritatis
+            aliquam est consequatur soluta eos veniam eaque fugit eligendi, nam, aliquid voluptatum maiores. Ea quod deleniti
+            ad quibusdam provident eveniet ducimus expedita consequuntur dolorum repellat! Voluptate dolorem beatae fugiat
+            aperiam. Voluptatum nihil animi consectetur a quisquam ipsam in cum recusandae distinctio, voluptas dignissimos
+            dolore velit excepturi provident facilis tempore, temporibus ratione! Consequatur voluptates nesciunt distinctio
+            laborum, quis alias ea eaque repellat perferendis eos expedita esse nam aliquid quibusdam quisquam explicabo
+            hic omnis! Unde laudantium aliquid quasi cumque praesentium ipsum aperiam esse accusamus cum perferendis doloremque
+            repellat facere possimus mollitia eius sunt, architecto tenetur quia voluptatibus amet tempora? Saepe labore
+            molestiae ea eaque officia libero perspiciatis! Sequi sit corporis saepe minima eos sapiente officia et quos.
+            Fuga omnis repudiandae odit nemo expedita exercitationem eius qui recusandae explicabo voluptatibus deserunt
+            corporis veritatis dignissimos ad, nostrum molestiae autem asperiores facere maxime aliquid perspiciatis modi
+            maiores alias labore! Omnis, perspiciatis accusantium tempore, ipsam non cumque totam aliquam, iusto ipsa soluta
+            quod. Suscipit atque perferendis magnam aspernatur ut, exercitationem culpa placeat autem enim porro quod, at
+            harum asperiores dolores adipisci maxime reprehenderit eum illum aliquam voluptatibus facilis tempora ad ipsam?
+            Commodi, voluptatem consequuntur. Voluptatum, omnis laboriosam. Eum debitis fuga quaerat, doloremque quae nam
+            ad, molestias nisi est eligendi a aut obcaecati, repudiandae saepe animi unde veniam aperiam tenetur perferendis?
+            Delectus cupiditate eum inventore repellendus in vel quae consectetur natus ad assumenda laboriosam commodi temporibus
+            ab culpa quod eveniet voluptatem dolores aliquam, rerum tempora sit optio. Sit odit repellat ipsam architecto,
+            voluptatum dolor eum, maxime magni sunt debitis minima neque earum officiis temporibus dicta ullam optio illo
+            quod vel, quaerat iure dolorem quam? Officia, ab? Iste quidem facilis optio voluptatibus, sapiente porro ab molestiae
+            vero consequuntur! Asperiores, repudiandae? Magni quam fugit adipisci? Pariatur sit placeat soluta ipsa aut facilis
+            incidunt eaque consequatur adipisci in, eos ut accusamus ea dolorum porro? Expedita ad fuga, quos possimus animi
+            facilis corporis ullam ratione quae officiis reiciendis atque libero dignissimos laborum repudiandae. Voluptatibus
+            rerum non voluptate! Nesciunt minima beatae voluptatum blanditiis natus totam provident sequi commodi, obcaecati
+            accusantium fugiat dicta vero aspernatur earum repellendus dignissimos. Dolore minus, tempore neque adipisci
+            iusto earum numquam beatae assumenda non quasi delectus nemo blanditiis optio consequatur laboriosam explicabo
+            error! Repellat animi veniam reprehenderit, sint reiciendis at ipsa minima, ab enim labore deserunt nobis delectus
+            nesciunt dolore dolor ut repudiandae sapiente ex. Rerum quos rem voluptatem, repudiandae eveniet nulla sit. Reiciendis
+            molestias hic minus odit numquam accusantium aspernatur eos repellendus rem, repudiandae amet et perspiciatis
+            magnam cupiditate praesentium sed sit porro quos? Unde reiciendis alias sed. Excepturi cumque nisi neque id quos,
+            adipisci, error quaerat magni labore temporibus explicabo dolor voluptatibus natus assumenda quis repellat dolores.
+            Accusantium iste et ad qui ullam nihil perspiciatis minima! Sunt fugit incidunt nulla consequatur. Iusto quisquam
+            odio ipsam. Corporis sunt qui sed repellat modi enim eveniet ea, minima voluptatibus in cumque quibusdam hic
+            saepe similique nesciunt, reprehenderit, natus quae necessitatibus aut inventore? Quod ea, modi provident pariatur
+            ipsa fugit, eos quos ut asperiores nisi quisquam ad placeat eaque dolore maxime, harum amet quibusdam. Explicabo
+            impedit culpa earum reiciendis, mollitia corporis facilis enim magni. Dolore, voluptatum esse. Aspernatur ipsam
+            error nobis corrupti, repellendus cum atque esse quia dolorum harum possimus! Sapiente saepe cumque maxime temporibus?
+            Doloribus illum animi, explicabo minus necessitatibus beatae corrupti voluptatem accusamus odio temporibus harum
+            blanditiis facilis odit minima veniam amet at quidem corporis voluptatibus? Saepe natus sunt omnis, quos similique
+            harum alias facere laboriosam aliquid a repellendus perspiciatis iure labore ratione et totam! Nemo autem beatae
+            a delectus quae placeat consequuntur officiis, harum ex, tenetur animi iusto voluptates, repellat nihil porro
+            unde consectetur dolores dolorum ratione totam. Corrupti quia maiores minima minus placeat, assumenda aliquam
+            suscipit et, necessitatibus similique, reiciendis officiis soluta eveniet amet autem! Nam molestiae sit similique
+            temporibus aut quibusdam voluptatem vero odit, minima doloremque magnam suscipit? Ab eligendi ullam, pariatur
+            et obcaecati at.</div>
+
+
+
+
+
+
+
+
+
+        <!-- <div class="main">
+            <form>
+                <input type="text" v-model="zipCode">
+                <button type="submit" @click.prevent="postData">Submit</button>
+            </form>
+            <div>{{displayDate}}</div>
+        </div>
+
+        <div class="footer">
+            <v-select :value.sync="selected" :on-change="checkMaturity" :options="veggies"></v-select>
+        </div>
+         -->
+
+        <template id="varietyList">
+            <div>
+                <div v-for="variety in currentVarieties">
+                    <div>{{variety.name}}</div>
+                    <div>{{variety.dtm}}</div>
+                </div>
+            </div>
+        </template>
+
+
+
+
     </div>
-
-
     <script src="./js/main.js"></script>
 </body>
 
