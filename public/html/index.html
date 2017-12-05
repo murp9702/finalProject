@@ -55,7 +55,14 @@
         <div class="varietyList">
             <div v-for="array in currentVarieties">
                 <div v-for="variety in array">
-                    <div>{{variety.name}}</div>
+                    <div class="varieties">
+                        <div class="varietyName">
+                           <h4> <a :href="variety.link" target="_blank">{{variety.name}}</a></h4>
+                        </div>
+                        <div class="varietyDescription">{{variety.description}}</div>
+                        <div class="varietyPhoto"><img :src="variety.photo"/></div>
+                        <hr>
+                    </div>
                 </div>
             </div>
         </div>
