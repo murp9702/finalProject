@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <!-- <div id="app"> -->
     <EasyGarden/>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -25,5 +25,6 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 } */
+
  @import '../node_modules/fullcalendar/dist/fullcalendar.css';
 </style>

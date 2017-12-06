@@ -48,12 +48,12 @@
             </div>
 
             <template id="varietyList">
-            <div>
+            <!-- <div>
               <div v-for="variety in currentVarieties">
                 <div>{{variety.name}}</div>
                 <div>{{variety.dtm}}</div>
               </div>
-            </div>
+            </div> -->
             </template>
       
       <!-- <div class="main">
@@ -91,6 +91,7 @@
                         // name of vegetable
                         label: "tomato",
                         daysToMaturity: 55,
+                        // individual varieties of vegetable
                         varieties: [{
                                 name: "Valentine",
                                 photo: "../assets/tomato_valentine.jpg",
@@ -313,9 +314,11 @@
         display: grid;
         /* grid-template-rows: .25fr 1fr; */
         grid-template-columns: 0.33fr 0.6fr 1fr;
-        grid-template-areas: "logoTitleBar searchBar searchBar" "vegetableList varietyList calendarView";
+        grid-template-areas: "logoTitleBar searchBar searchBar" 
+        "vegetableList varietyList calendarView";
         grid-auto-rows: minmax(0.33fr, 1fr);
         margin: 0;
+        
 
     }
     
