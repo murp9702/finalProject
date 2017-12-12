@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+
 import EasyGarden from './components/EasyGarden'
 
 export default {
@@ -17,14 +17,33 @@ export default {
 </script>
 
 <style>
+  @import '../node_modules/fullcalendar/dist/fullcalendar.css';
 /* #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-} */
+  margin-top: 60px; 
 
- @import '../node_modules/fullcalendar/dist/fullcalendar.css';
+
+}  */
+* {
+  box-sizing: border-box;
+}
+
+.wrapper {
+    height: 100%;
+
+}
+
+html, body{
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  position: relative;
+
+}
+
 </style>

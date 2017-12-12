@@ -1,5 +1,6 @@
 <template>
     <!-- <body> -->
+    <div class="wrapper">
         <div id="app">
             <div class="logoTitleBar">
                 <i class="fa fa-leaf fa-2x" aria-hidden="true"></i>
@@ -10,12 +11,14 @@
     
                 <div class="input-group margin-bottom-sm">
                     <span class="input-group-addon">
-                    <i class="fa fa-search fa-fw" aria-hidden="true"></i>
-                    <input class="form-control" type="text" placeholder="Search for Seeds">
-                    </span>
+                                <i class="fa fa-search fa-fw" aria-hidden="true"></i>
+                                <input class="form-control" type="text" placeholder="Search for Seeds" v-model="zipCode">
+                                <button type="submit" @click.prevent="postData">Submit</button>
+                                </span>
                 </div>
     
             </div>
+    
             <div class="vegetableList">
                 <ul>
                     <li v-for="(vegetable, index) in veggies" @click="alert(index)">
@@ -24,55 +27,53 @@
                 </ul>
             </div>
     
-            <div class="varietyList">
-                <div v-for="array in currentVarieties">
-                    <div v-for="variety in array">
-                        <div class="varieties">
-                            <div class="varietyName">
-                                <h4>
-                                    <a :href="variety.link" target="_blank">{{variety.name}}</a>
-                                </h4>
-                            </div>
+            <div class="varietyList varieties" >
+                
+                    <swiper :options="swiperOption" v-for="array in currentVarieties">
+                        <swiper-slide v-for="variety in array" class="varieties" >
+                            <div class="varietyName">{{variety.name}}<hr></div>
+                            <img class="varietyPhoto" :src="variety.photo" />
                             <div class="varietyDescription">{{variety.description}}</div>
-                            <div class="varietyPhoto">
-                                <img :src="variety.photo" />
-                            </div>
-                            <hr>
-                        </div>
-                    </div>
-                </div>
+                        </swiper-slide>
+                        <div class="swiper-pagination" slot="pagination"></div>
+                        <div class="swiper-button-prev" slot="button-prev"></div>
+                        <div class="swiper-button-next" slot="button-next"></div>                       
+                    </swiper>
+                    <!-- <div class="varieties">
+                                <div class="varietyName">
+                                    <h4>
+                                        <a :href="variety.link" target="_blank">{{variety.name}}</a>
+                                    </h4>
+                                </div>
+                                <div class="varietyDescription">{{variety.description}}</div>
+                                <div class="varietyPhoto">
+                                    <img :src="variety.photo" />
+                                </div>
+                                <hr>
+                            </div> -->
+                
             </div>
+        </div>
     
-            <div class="calendarView">
-                <full-calendar :events="events"></full-calendar>
-            </div>
-
-            <template id="varietyList">
-            <!-- <div>
-              <div v-for="variety in currentVarieties">
-                <div>{{variety.name}}</div>
-                <div>{{variety.dtm}}</div>
-              </div>
-            </div> -->
-            </template>
-      
-      <!-- <div class="main">
-              <form>
-                  <input type="text" v-model="zipCode">
-                  <button type="submit" @click.prevent="postData">Submit</button>
-              </form>
-              <div>{{displayDate}}</div>
-          </div>
+        <!-- <div class="calendarView">
+                    <full-calendar :events="events" :config="config"/>
+                </div> -->
+ 
     
-          <div class="footer">
-              <v-select :value.sync="selected" :on-change="checkMaturity" :options="veggies"></v-select>
-          </div>
-           -->
-      
+        <template id="varietyList">
+                        <!-- <div>
+                          <div v-for="variety in currentVarieties">
+                            <div>{{variety.name}}</div>
+                            <div>{{variety.dtm}}</div>
+                          </div>
+                        </div> -->
+</template>
+      </div>
+     
       
       
     </div>
-  <!-- </body> -->
+ 
 </template>
 
 <script>
@@ -80,10 +81,44 @@
         name: "EasyGarden",
         data: function() {
             return {
+                swiperOption: {
+                    pagination: {
+                        el: '.swiper-pagination'
+                    },
+                    mousewheel: true,
+                },
                 events: [{
-                    title: "plant",
-                    start: "2017-12-25"
-                }],
+                        title: "plant",
+                        start: "2017-12-25",
+                        end: "2017-12-30"
+                    },
+                    {
+                        title: "new plant",
+                        start: "2017-12-25",
+                        backgroundColor: '#378006'
+                    },
+                    {
+                        title: "new plant1",
+                        start: "2017-12-25"
+                    },
+                    {
+                        title: "new plant2",
+                        start: "2017-12-25"
+                    },
+                    {
+                        title: "new plant3",
+                        start: "2017-12-25"
+                    },
+                    {
+                        title: "new plant4",
+                        start: "2017-12-25"
+                    },
+                ],
+                config: {
+                    height: 500,
+                    eventLimit: 4,
+                    defaultView: 'month'
+                },
                 locationInfo: null,
                 zipCode: null,
                 // data for veggies
@@ -94,28 +129,28 @@
                         // individual varieties of vegetable
                         varieties: [{
                                 name: "Valentine",
-                                photo: "../assets/tomato_valentine.jpg",
+                                photo: "../static/tomato_valentine.jpg",
                                 description: "Massive early yields, deep red color, and unusually rich flavor. Developed in collaboration with Dr. Majid Foolad of Penn State University, Valentine marries the best of wild-type tomato genetics with flavorful high-performing strains. This vivid-red, high-yielding, and early blight resistant tomato is the first commercial variety developed with Penn State's patented high-lycopene breeding lines. For best flavor, harvest when fruits are deep red. Long shelf life. AAS winner. U.S. Patent #8,524,992. Indeterminate. Intermediate resistance to alternaria (early) blight. Avg. 295,200 seeds/lb. Packet: 15 seeds.",
                                 dtm: 55,
                                 link: "http://www.johnnyseeds.com/vegetables/tomatoes/valentine-organic-f1-tomato-seed-3371G.html?cgid=tomatoes#start=1"
                             },
                             {
                                 name: "Sunrise Sauce",
-                                photo: "../assets/tomato_sunrise_sauce.jpg",
+                                photo: "../static/tomato_sunrise_sauce.jpg",
                                 description: "Much sweeter flavor than others in its class. Sunrise Sauce produces high yields of 3-4 oz. squat, Roma-shaped fruits within a concentrated period, which makes it perfect for saucing. Not to mention it has exceptional fruit quality and flavor and cooks down quickly. The perfect patio tomato. High resistance to fusarium wilt race 1 and verticillium wilt. Avg. 18,500 seeds/lb. Packet: 15 seeds.",
                                 dtm: 57,
                                 link: "http://www.johnnyseeds.com/vegetables/tomatoes/sunrise-sauce-f1-tomato-seed-3376.html?cgid=tomatoes#start=1"
                             },
                             {
                                 name: "Speckled Roman",
-                                photo: "../assets/tomato_speckroman.jpg",
+                                photo: "../static/tomato_speckroman.jpg",
                                 description: "Speckled Roman is an elongated plum tomato, avg. 6-8 oz., with bright red skin and golden streaks. Meaty red flesh has little juice, is good for fresh eating, and cooks quickly into sauce. Excellent flavor. Developed by Seed Savers Exchange member John Swenson. Though technically not an heirloom, we feel this is the best place to list it. Avg. 10,250 seeds/lb. Packet: 40 seeds.",
                                 dtm: 85,
                                 link: "http://www.johnnyseeds.com/vegetables/tomatoes/heirloom-tomatoes/speckled-roman-tomato-seed-3816.html?cgid=heirloom-tomatoes#sz=18&start=19"
                             },
                             {
                                 name: "Bigdena",
-                                photo: "../assets/tomato_bigdena.jpg",
+                                photo: "../static/tomato_bigdena.jpg",
                                 description: "Vigorous, open plants produce very high yields of uniform, 10-12 oz., red fruits that are mostly smooth with slight shoulder ribs. Very good flavor with nice internal color and quality. High resistance to fusarium wilt races 1, 2, fusarium crown and root rot, leaf mold, tobacco mosaic virus, tomato mosaic virus, and verticillium wilt. Indeterminate. Avg. 9,800 seeds/oz. Packet: 15 seeds.",
                                 dtm: 77,
                                 link: "http://www.johnnyseeds.com/vegetables/tomatoes/beefsteak-tomatoes/bigdena-f1-tomato-seed-3181.html?cgid=beefsteak-tomatoes#prefn1=prod_feature_marketing&prefv1=8&start=1"
@@ -127,21 +162,21 @@
                         daysToMaturity: 40,
                         varieties: [{
                                 name: "Carminat",
-                                photo: "../assets/bean_carminat.jpg",
+                                photo: "../static/bean_carminat.jpg",
                                 description: 'Much nicer than older purple pole bean varieties. Harvest pods at 8-9". Excellent, rich, and slightly sweet flavor. Suitable for fresh use in salads or cooked. Beans turn green when cooked. Tan seeds. Avg. 1,400 seeds/lb. Packet: 50 seeds.',
                                 dtm: 62,
                                 link: "http://www.johnnyseeds.com/vegetables/beans/pole-beans/carminat-bean-seed-3170.html?cgid=pole-beans#start=1"
                             },
                             {
                                 name: "Dragon's Tongue",
-                                photo: "../assets/bean_dragonstounge.jpg",
+                                photo: "../static/bean_dragonstounge.jpg",
                                 description: 'Avg. 6-6- 1/2" flat pods are pale yellow with purple streaks. They are tender and sweet and good in salads or cooked. Purple disappears upon cooking. Tan seeds with dark speckles. Avg. 1,200 seeds/lb. Packet: 175 seeds.',
                                 dtm: 57,
                                 link: "http://www.johnnyseeds.com/vegetables/beans/bush-beans/dragons-tongue-bean-seed-3175.html?cgid=bush-beans#start=1"
                             },
                             {
                                 name: "Midnight Black Turtle Soup",
-                                photo: "../assets/bean_midnightblkturtle.jpg",
+                                photo: "../static/bean_midnightblkturtle.jpg",
                                 description: "The best variety of this Latin favorite, Midnight is an improved, upright-growing, black bean strain. The tall bush keeps the pods off the ground. Our nicest flavored bean. Small black beans, about the size of pea beans. Avg. 2,300 seeds/lb. Packet: 100 seeds.",
                                 dtm: 104,
                                 link: "http://www.johnnyseeds.com/vegetables/beans/dry-beans/midnight-black-turtle-soup-dry-bean-seed-86.html?cgid=dry-beans#start=1"
@@ -153,14 +188,14 @@
                         daysToMaturity: 28,
                         varieties: [{
                                 name: "Sugar Sprint",
-                                photo: "../assets/pea_sugarsprint.jpg",
+                                photo: "../static/pea_sugarsprint.jpg",
                                 description: `An almost stringless snap pea with excellent eating quality. Flavor as good as Sugar Ann. Diminished strings do not require removal before eating, making preparation faster and easier. 3" pods grow on 2' vines that can be grown with or without support. High resistance to powdery mildew. Avg. 2,000 seeds/lb. Packet: 250 seeds.`,
                                 dtm: 58,
                                 link: "http://www.johnnyseeds.com/vegetables/peas/sugar-sprint-pea-seed-2339.html?cgid=peas#start=1"
                             },
                             {
                                 name: "Premium",
-                                photo: "../assets/pea_premium.jpg",
+                                photo: "../static/pea_premium.jpg",
                                 description: `2 1/2-3" pods with avg. 7-8 very sweet, medium-sized peas per pod. 30" vines may be grown with or without support. High resistance to fusarium wilt race 1. Select 2669T (Treated) or 2669 (Untreated) Avg. 2,250 seeds/lb. Packet: 250 seeds.`,
                                 dtm: 51,
                                 link: "http://www.johnnyseeds.com/vegetables/peas/premium-treated-pea-seed-2669T.html?cgid=peas#start=1"
@@ -194,7 +229,8 @@
             },
             postData: function() {
                 $.post(
-                    "/postData", {
+                    // "http://localhost:8081"
+                    "http://localhost:8081/postData", {
                         zipCode: this.zipCode
                     },
                     dataFromServer => {
@@ -308,18 +344,18 @@
 <style scoped>
     body {
         margin: 0;
+        height: 100vh;
     }
     
     #app {
         display: grid;
-        /* grid-template-rows: .25fr 1fr; */
-        grid-template-columns: 0.33fr 0.6fr 1fr;
-        grid-template-areas: "logoTitleBar searchBar searchBar" 
-        "vegetableList varietyList calendarView";
-        grid-auto-rows: minmax(0.33fr, 1fr);
+        grid-template-rows: 8% 1fr;
+        grid-template-columns: 15% 1fr;
+        grid-template-areas: "logoTitleBar searchBar" "vegetableList varietyList";
+        /* grid-auto-rows: minmax(0.33fr, 1fr); */
+        /* grid-auto-columns: minmax(100px, 1fr); */
         margin: 0;
-        
-
+        height: 100vh;
     }
     
     #app>div {
@@ -358,11 +394,20 @@
     
     .varietyList {
         grid-area: varietyList;
+        /* width: 100vw; */
+        /* box-sizing: content-box;
+                height: 50%;
+                overflow: scroll; */
+        overflow: scroll;
+        display: grid;
     }
     
     .calendarView {
         grid-area: calendarView;
-        overflow: auto;
+        /* overflow: auto;
+                height: 50%; */
+        height: 100%;
+        overflow: scroll;
     }
     
     input {
@@ -384,8 +429,8 @@
         content: "\f002";
     }
     
-    :after,
-    :before {
+     :after,
+     :before {
         box-sizing: border-box;
     }
     
@@ -419,19 +464,21 @@
     
     .varieties {
         display: grid;
-        grid-template-rows: 0.33fr 1fr;
-        grid-auto-columns: 0.33fr 1fr;
-        grid-template-areas: "varietyPhoto varietyName" "varietyDescription varietyDescription";
-        grid-gap: 1em;
+        grid-template-rows: 1fr 1fr;
+        grid-auto-columns: 1fr 1fr;
+        grid-template-areas: "varietyPhoto varietyName" " varietyPhoto varietyDescription";
+        height: fit-content;
+        width: fit-content;
+        /* grid-gap: 1em; */
         /* justify-items: center; */
-        align-items: center;
+        /* align-items: center; */
     }
     
     .varietyName {
         grid-area: varietyName;
-        text-align: left;
-        align-items: left;
-        justify-items: left;
+        text-align: center;
+        align-items: center;
+        justify-items: center;
     }
     
     .varietyDescription {
@@ -441,7 +488,9 @@
     
     .varietyPhoto img {
         grid-area: varietyPhoto;
-        height: 50%;
-        width: 50%;
+        height: 75px;
+        width: 75px;
+        align-items: center;
+        justify-content: center;
     }
 </style>
