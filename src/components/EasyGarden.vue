@@ -11,11 +11,13 @@
     
                 <div class="input-group margin-bottom-sm">
                     <span class="input-group-addon">
-                                <i class="fa fa-search fa-fw" aria-hidden="true"></i>
-                                <input class="form-control" type="text" placeholder="Search for Seeds" v-model="zipCode">
-                                <button type="submit" @click.prevent="postData">Submit</button>
-                                </span>
+                                            <i class="fa fa-search fa-fw" aria-hidden="true"></i>
+                                            <input class="form-control" type="text" placeholder="Search for Seeds" v-model="zipCode">
+                                            <button type="submit" @click.prevent="postData">Submit</button>
+                                            </span>
                 </div>
+    
+                <button class="buttonModal" @click="showModal">Show Calendar</button>
     
             </div>
     
@@ -27,46 +29,51 @@
                 </ul>
             </div>
     
-            <div class="varietyList varieties" >
-                
-                    <swiper :options="swiperOption" v-for="array in currentVarieties">
-                        <swiper-slide v-for="variety in array" class="varieties" >
-                            <div class="varietyName">{{variety.name}}<hr></div>
-                            <img class="varietyPhoto" :src="variety.photo" />
-                            <div class="varietyDescription">{{variety.description}}</div>
-                        </swiper-slide>
-                        <div class="swiper-pagination" slot="pagination"></div>
-                        <div class="swiper-button-prev" slot="button-prev"></div>
-                        <div class="swiper-button-next" slot="button-next"></div>                       
-                    </swiper>
-                    <!-- <div class="varieties">
-                                <div class="varietyName">
-                                    <h4>
-                                        <a :href="variety.link" target="_blank">{{variety.name}}</a>
-                                    </h4>
-                                </div>
-                                <div class="varietyDescription">{{variety.description}}</div>
-                                <div class="varietyPhoto">
-                                    <img :src="variety.photo" />
-                                </div>
-                                <hr>
-                            </div> -->
-                
+        <div class="row">
+            <div class="varietyList" v-for="(array, arrayIndex) in currentVarieties">   
+                <div class="varieties" v-for="(variety, index) in array">
+                    <div class="varietyPhoto col-xl-4">
+                        <img :src="variety.photo" />
+                        <span>Days To Maturity: {{variety.dtm}}</span>
+                        <span>Expected Harvest Date: {{checkMaturity(variety.dtm)}}</span>
+                    </div>
+                    <div class="varietyName col-xl-4">
+                        <h4>
+                            <a :href="variety.link" target="_blank">{{variety.name}}</a>
+                            <button @click='addToCalendar(arrayIndex, index)'>Add to Calendar</button>
+                        </h4>
+                    </div>
+                    <div class="varietyDescription col-xl-4">{{variety.description}}</div>
+    
+                </div>
+                <!-- <swiper :options="swiperOption" v-for="array in currentVarieties">
+                                    <swiper-slide v-for="variety in array" class="varieties" >
+                                        <div class="varietyName">{{variety.name}}<hr></div>
+                                        <img class="varietyPhoto" :src="variety.photo" />
+                                        <div class="varietyDescription">{{variety.description}}</div>
+                                    </swiper-slide>
+                                    <div class="swiper-pagination" slot="pagination"></div>
+                                    <div class="swiper-button-prev" slot="button-prev"></div>
+                                    <div class="swiper-button-next" slot="button-next"></div>                       
+                                </swiper> -->
+    
             </div>
         </div>
+        <modal  name="calendar" :adaptive="true" width="75%" height="75%">
+            <div slot="top-right"><button @click='destroyCalendar'>X</button></div>
+            <div id='calendar'>
+            <full-calendar :events="events" :config="config" ref="calendar" />
+            </div>
+        </modal>
     
-        <!-- <div class="calendarView">
-                    <full-calendar :events="events" :config="config"/>
-                </div> -->
- 
     
         <template id="varietyList">
-                        <!-- <div>
-                          <div v-for="variety in currentVarieties">
-                            <div>{{variety.name}}</div>
-                            <div>{{variety.dtm}}</div>
-                          </div>
-                        </div> -->
+                                    <!-- <div>
+                                      <div v-for="variety in currentVarieties">
+                                        <div>{{variety.name}}</div>
+                                        <div>{{variety.dtm}}</div>
+                                      </div>
+                                    </div> -->
 </template>
       </div>
      
@@ -80,47 +87,18 @@
     export default {
         name: "EasyGarden",
         data: function() {
-            return {
-                swiperOption: {
-                    pagination: {
-                        el: '.swiper-pagination'
-                    },
-                    mousewheel: true,
-                },
-                events: [{
-                        title: "plant",
-                        start: "2017-12-25",
-                        end: "2017-12-30"
-                    },
-                    {
-                        title: "new plant",
-                        start: "2017-12-25",
-                        backgroundColor: '#378006'
-                    },
-                    {
-                        title: "new plant1",
-                        start: "2017-12-25"
-                    },
-                    {
-                        title: "new plant2",
-                        start: "2017-12-25"
-                    },
-                    {
-                        title: "new plant3",
-                        start: "2017-12-25"
-                    },
-                    {
-                        title: "new plant4",
-                        start: "2017-12-25"
-                    },
+            return {  
+                events: [
                 ],
                 config: {
                     height: 500,
                     eventLimit: 4,
-                    defaultView: 'month'
+                    defaultView: 'month',
+                    defaultDate: "2018-04-12"
+
                 },
                 locationInfo: null,
-                zipCode: null,
+                zipCode: 80631,
                 // data for veggies
                 veggies: [{
                         // name of vegetable
@@ -204,13 +182,39 @@
                     }
                 ],
                 currentVarieties: [],
+                vegetableArrayIndex: 0,
                 displayDate: null,
-                // data to display in dropdown before user input
-                selected: "Please select an option"
+                
+
             };
         },
     
         methods: {
+            addToCalendar: function(arrayIndex, index) {
+                // push an array of arrays of objects to events exapmple: [[{plantdate},{harvest}],[{plant},{harvest}]]
+                var vegetable = this.veggies[this.vegetableArrayIndex].varieties[index]
+                console.log({
+                    this: this,
+                    index: index,
+                    arrayIndex: this.vegetableArrayIndex,
+                    name: this.veggies[this.vegetableArrayIndex].varieties[index].name
+                })
+                var harvestDate =  this.checkMaturity(vegetable.dtm)
+                // console.log(harvestDate)
+                // var harvestSlice = harvestDate.toISOString().split('').slice(0,10).join('')
+                var slice = this.locationInfo.lastFrostDate.toISOString().split('').slice(0,10).join('')
+                console.log("slice", slice)
+                this.events.push({title: `Plant ${vegetable.name}`, start: slice},{title: `Harvest ${vegetable.name}`, start: harvestDate})
+            },
+            showModal: function() {
+                this.$modal.show('calendar');
+                // $('#calendar').fullCalendar('rerenderEvents');
+                // this.reRenderCalendar()
+            },
+            destroyCalendar: function() {
+                $('#calendar').destroy()
+                
+            },
             // the on change passes the selected item into function as `val`
             alert: function(index) {
                 // console.log(val.label)
@@ -223,6 +227,7 @@
                     label: this.veggies[index].varieties
                     // variety: val.lablel,
                 });
+                this.vegetableArrayIndex = index
                 this.currentVarieties = [];
                 this.currentVarieties.push(this.veggies[index].varieties);
                 // this.displayDate = this.locationInfo.firstFrostDate
@@ -293,7 +298,7 @@
                     // if before last frost but in new year no changes need to be made.
                     if (date.getMonth() > firstFrost.getMonth()) {
                         console.log("planning for next year");
-                        // currentYear++
+                        currentYear++
                         firstFrost.setFullYear(currentYear, firstFrostMonth, firstFrostDay);
                         lastFrost.setFullYear(currentYear, lastFrostMonth, lastFrostDay);
                     }
@@ -302,17 +307,20 @@
                 this.locationInfo.firstFrostDate = firstFrost;
                 this.locationInfo.lastFrostDate = lastFrost;
             },
-            checkMaturity: function(crop) {
-                let firstFrostDate = this.locationInfo.firstFrostDate;
-                let lastFrostDate = this.locationInfo.lastFrostDate;
+            checkMaturity: function(dtm) {
+                const firstFrostDate = this.locationInfo.firstFrostDate;
+                const lastFrostDate = this.locationInfo.lastFrostDate;
+
+
                 // add the selected vegetables DTM to the current date
-                let todaysDate = new Date();
-                let maturityMath = todaysDate.setDate(
-                    todaysDate.getDate() + crop.daysToMaturity
+                let todaysDate = new Date(lastFrostDate);
+                let maturityMath = ''
+                maturityMath = todaysDate.setDate(
+                    todaysDate.getDate() + dtm
                 );
                 // turn maturityMath date into formatted string, maturityMath outputs time in mS
                 let maturityDate = new Date(maturityMath);
-    
+                let isoDate = maturityDate.toISOString().split('').slice(0,10).join('')
                 // if the maturity date is before the first frost, the crop can grow
                 if (maturityDate <= firstFrostDate) {
                     console.log("You can grow");
@@ -320,16 +328,17 @@
                         maturityDate: maturityDate,
                         firstFrostDate: firstFrostDate
                     });
+                    return isoDate
                 } else {
                     // if season is too short to grow a crop
                     console.log("season too short");
                 }
     
-                console.log({
-                    name: crop.label,
-                    dtm: crop.daysToMaturity,
-                    newDate: maturityDate
-                });
+                // console.log({
+                //     name: crop.label,
+                //     dtm: crop.daysToMaturity,
+                //     newDate: maturityDate
+                // });
             }
         },
         computed: {
@@ -375,13 +384,20 @@
         background-color: green;
     }
     
-    .searchBar {
+    .searchBar .input-group {
         grid-area: searchBar;
         display: grid;
         grid-template-columns: 1fr;
         position: relative;
         justify-items: left;
         align-items: center;
+    }
+    
+    .searchBar .buttonModal {
+        position: relative;
+        float: right;
+        align-items: center;
+        justify-items: right;
     }
     
     .vegetableList {
@@ -396,8 +412,8 @@
         grid-area: varietyList;
         /* width: 100vw; */
         /* box-sizing: content-box;
-                height: 50%;
-                overflow: scroll; */
+                            height: 50%;
+                            overflow: scroll; */
         overflow: scroll;
         display: grid;
     }
@@ -405,7 +421,7 @@
     .calendarView {
         grid-area: calendarView;
         /* overflow: auto;
-                height: 50%; */
+                            height: 50%; */
         height: 100%;
         overflow: scroll;
     }
@@ -463,34 +479,47 @@
     }
     
     .varieties {
-        display: grid;
-        grid-template-rows: 1fr 1fr;
-        grid-auto-columns: 1fr 1fr;
-        grid-template-areas: "varietyPhoto varietyName" " varietyPhoto varietyDescription";
-        height: fit-content;
-        width: fit-content;
-        /* grid-gap: 1em; */
-        /* justify-items: center; */
-        /* align-items: center; */
+        /* display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas: "varietyName varietyDescription varietyPhoto";
+        height: auto;
+        width: auto; */
+
+        justify-items: center; 
+        align-items: center; 
+        border: 1px solid black;
+        border-radius: 10px;
     }
     
     .varietyName {
-        grid-area: varietyName;
+        /* grid-area: varietyName;
         text-align: center;
         align-items: center;
-        justify-items: center;
+        justify-items: center; */
+        margin-left: 5px;
     }
     
     .varietyDescription {
-        grid-area: varietyDescription;
-        text-align: center;
+        /* grid-area: varietyDescription;
+        text-align: center; */
+        margin-left: 5px;
     }
     
-    .varietyPhoto img {
-        grid-area: varietyPhoto;
-        height: 75px;
-        width: 75px;
+    img {
+        /* grid-area: varietyPhoto; */
+        height: 100px;
+        width: 100px;
         align-items: center;
-        justify-content: center;
+            justify-content: center;
+            text-align: center;
+            float: center;
+            margin-top: 5px;
+            margin-left: 5px;
+            border-radius: 25%;
+    } 
+    
+    span {
+        margin:10px;
     }
 </style>

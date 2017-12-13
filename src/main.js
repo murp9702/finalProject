@@ -5,12 +5,9 @@ import App from './App'
 import FullCalendar from 'vue-full-calendar'
 Vue.use(FullCalendar)
 
-import VueAwesomeSwiper from 'vue-awesome-swiper'
+import VModal from 'vue-js-modal'
 
-// require styles
-import 'swiper/dist/css/swiper.css'
-
-Vue.use(VueAwesomeSwiper)
+Vue.use(VModal)
 
 Vue.config.productionTip = false
 
