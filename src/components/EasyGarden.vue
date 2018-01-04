@@ -563,7 +563,7 @@
             postData: function() {
                 $.post(
                     // "http://localhost:8081"
-                    "http://localhost:5000/postData", {
+                    "http://0.0.0.0:5000/postData", {
                         zipCode: this.zipCode
                     },
                     dataFromServer => {
