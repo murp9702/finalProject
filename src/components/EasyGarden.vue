@@ -11,14 +11,14 @@
     
                 <div class="input-group margin-bottom-sm">
                     <span class="input-group-addon">
-                                            <i class="fa fa-search fa-fw" aria-hidden="true"></i>
-                                            <input class="form-control" type="text" placeholder="Please enter your ZipCode" v-model="zipCode">
-                                            <button type="submit" @click.prevent="postData">Submit</button>
-                                            </span>
+                        <i class="fa fa-search fa-fw" aria-hidden="true"></i>
+                        <input class="form-control" type="text" placeholder="Please enter your Zipcode" v-model="zipCode">
+                        <button type="submit" @click.prevent="postData">Submit</button>
+                    </span>
                 </div>
     
                 <button class="buttonModal" @click="showModal">Show Calendar</button>
-    
+   
             </div>
     
             <div class="vegetableList">
@@ -29,51 +29,51 @@
                 </ul>
             </div>
     
-        <div class="row">
-            <div class="varietyList" v-for="(array, arrayIndex) in currentVarieties">   
-                <div class="varieties" v-for="(variety, index) in array">
-                    <div class="varietyPhoto col-xl-4">
-                        <img :src="variety.photo" />
-                        <span>Days To Maturity: {{variety.dtm}}</span>
-                        <span>Expected Harvest Date: {{checkMaturity(variety.dtm)}}</span>
+            <div class="row varietyList">
+                <div class="varietyList" v-for="(array, arrayIndex) in currentVarieties">
+                    <div class="varieties" v-for="(variety, index) in array">
+                        <div class="varietyPhoto col-xl-4">
+                            <img :src="variety.photo" />
+                            <span>Days To Maturity: {{variety.dtm}}</span>
+                            <span>Expected Harvest Date: {{checkMaturity(variety.dtm)}}</span>
+                        </div>
+                        <div class="varietyName col-xl-4">
+                            <h4>
+                                <a :href="variety.link" target="_blank">{{variety.name}}</a>
+                                <button @click='addToCalendar(arrayIndex, index)'>Add to Calendar</button>
+                            </h4>
+                        </div>
+                        <div class="varietyDescription col-xl-4">{{variety.description}}</div>
+    
                     </div>
-                    <div class="varietyName col-xl-4">
-                        <h4>
-                            <a :href="variety.link" target="_blank">{{variety.name}}</a>
-                            <button @click='addToCalendar(arrayIndex, index)'>Add to Calendar</button>
-                        </h4>
-                    </div>
-                    <div class="varietyDescription col-xl-4">{{variety.description}}</div>
+                    <!-- <swiper :options="swiperOption" v-for="array in currentVarieties">
+                                        <swiper-slide v-for="variety in array" class="varieties" >
+                                            <div class="varietyName">{{variety.name}}<hr></div>
+                                            <img class="varietyPhoto" :src="variety.photo" />
+                                            <div class="varietyDescription">{{variety.description}}</div>
+                                        </swiper-slide>
+                                        <div class="swiper-pagination" slot="pagination"></div>
+                                        <div class="swiper-button-prev" slot="button-prev"></div>
+                                        <div class="swiper-button-next" slot="button-next"></div>                       
+                                    </swiper> -->
     
                 </div>
-                <!-- <swiper :options="swiperOption" v-for="array in currentVarieties">
-                                    <swiper-slide v-for="variety in array" class="varieties" >
-                                        <div class="varietyName">{{variety.name}}<hr></div>
-                                        <img class="varietyPhoto" :src="variety.photo" />
-                                        <div class="varietyDescription">{{variety.description}}</div>
-                                    </swiper-slide>
-                                    <div class="swiper-pagination" slot="pagination"></div>
-                                    <div class="swiper-button-prev" slot="button-prev"></div>
-                                    <div class="swiper-button-next" slot="button-next"></div>                       
-                                </swiper> -->
-    
             </div>
-        </div>
-        <modal  name="calendar" :adaptive="true" width="75%" height="75%">
-            <div slot="top-right"><button @click='destroyCalendar'>X</button></div>
-            <div id='calendar'>
-            <full-calendar :events="events" :config="config" ref="calendar" />
-            </div>
-        </modal>
+            <modal name="calendar" :adaptive="true" width="75%" height="75%">
+                <div slot="top-right"><button @click='destroyCalendar'>X</button></div>
+                <div id='calendar'>
+                    <full-calendar :events="events" :config="config" ref="calendar" />
+                </div>
+            </modal>
     
     
-        <template id="varietyList">
-                                    <!-- <div>
-                                      <div v-for="variety in currentVarieties">
-                                        <div>{{variety.name}}</div>
-                                        <div>{{variety.dtm}}</div>
-                                      </div>
-                                    </div> -->
+            <template id="varietyList">
+                                        <!-- <div>
+                                          <div v-for="variety in currentVarieties">
+                                            <div>{{variety.name}}</div>
+                                            <div>{{variety.dtm}}</div>
+                                          </div>
+                                        </div> -->
 </template>
       </div>
      
@@ -87,24 +87,21 @@
     export default {
         name: "EasyGarden",
         data: function() {
-            return {  
-                events: [
-                ],
+            return {
+                events: [],
                 config: {
                     height: 500,
                     eventLimit: 4,
                     defaultView: 'month',
                     defaultDate: "2018-04-12"
-
+    
                 },
                 locationInfo: null,
-                zipCode: 80631,
+                zipCode: null,
                 // data for veggies
-                veggies: [
-                    {
-                        label:"Artichokes",
-                        varieties: [
-                            {
+                veggies: [{
+                        label: "Artichokes",
+                        varieties: [{
                                 name: "Imperial Star",
                                 description: `A green artichoke specifically bred for annual production, Imperial Star will produce well-developed artichokes the first year from seed. Plants become 1 1/2-3' tall and have an open growth habit. Each typically produces 1-2 primary buds, which average 3-4" in diameter, and 5-7 smaller secondary buds. Perennial in Zone 7 and warmer; otherwise treat as an annual. Avg. 10,500 seeds/lb. Packet: 25 seeds.`,
                                 dtm: 85,
@@ -118,10 +115,10 @@
                                 link: `http://www.johnnyseeds.com/vegetables/artichokes/colorado-star-artichoke-seed-3674.html?cgid=artichokes#start=1`,
                                 photo: "../static/artichoke_coloradostar.jpg"
                             }
-                            ]
+                        ]
                     },
-                    
-                     {
+    
+                    {
                         label: "Beans",
                         daysToMaturity: 40,
                         varieties: [{
@@ -149,8 +146,7 @@
                     },
                     {
                         label: "Beets",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: "Boro",
                                 description: "Tough, widely adapted, and reliable. Smooth, rich red skin and excellent flavor. Attractive fine taproot. Big healthy tops. Smoother skin, earlier, and more round in shape than Merlin, which it replaces. Excellent resistance to Cercospora leaf spot. Select organic or conventional seeds. Also available with NOP-compliant pelleting. Avg. 51,300 seeds/lb. Packet: 350 seeds.",
                                 dtm: 50,
@@ -175,8 +171,7 @@
                     },
                     {
                         label: "Broccoli",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: "Monflor",
                                 description: `Speed up kitchen prep. Monflor was bred for a flat and loose head, which allows floret separation with one cut. Floret quality is higher than those cut from standard heads. Market as bagged florets or whole heads. Avg. 75,000 seeds/lb. Packet: 100 seeds.`,
                                 dtm: 53,
@@ -194,8 +189,7 @@
                     },
                     {
                         label: "Brussels",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: `Diablo`,
                                 description: `Tall plants produce heavy crops of smooth, medium-sized sprouts. These excellent quality sprouts are solid and hold well in the field. Avg. 63,400 seeds/lb. Packet: 100 seeds.`,
                                 dtm: 110,
@@ -213,11 +207,10 @@
                     },
                     {
                         label: "Cabbage",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: `Farao`,
                                 description: `Attractive deep-green, 3-lb. heads are filled with tender, thin, crisp, peppery-sweet leaves. Holds well in the field and is slow to split. Organically grown. Avg. 94,300 seeds/lb. Packet: 50 seeds.`,
-                                dtm:65,
+                                dtm: 65,
                                 link: `http://www.johnnyseeds.com/vegetables/cabbage/farao-organic-f1-cabbage-seed-2110G.html?cgid=cabbage#start=1`,
                                 photo: `../static/cabbage_farao.jpg`
                             },
@@ -232,8 +225,7 @@
                     },
                     {
                         label: "Carrots",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: "Yellowstone",
                                 description: `Yellowstone's 6-8" long roots are deeper in color than most other yellow carrot varieties. Nice, vigorous tops will compete with weeds. Compared to Yellowbunch, it is earlier and shorter with slightly blunter tip. Pairs well with Purple Haze and White Satin. Select organic or conventional seeds. Also available with NOP-compliant pelleting. Avg. 230,900 seeds/lb. Packet: 750 seeds.`,
                                 dtm: 73,
@@ -258,8 +250,7 @@
                     },
                     {
                         label: "Corn",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: "American Dream",
                                 description: `Exceptionally tender and sweet. The finest eating quality available in sweet corn. Produces tidy ears that look great on the farm stand and deliver on fresh-market flavor. Adaptable variety with excellent tip fill and strong husk protection. Replaces Xtra-Tender 277A. Intermediate resistance to northern corn leaf blight. AAS winner. Avg. 3,500 seeds/lb. Packet: 150 seeds.`,
                                 dtm: 77,
@@ -273,13 +264,12 @@
                                 link: `http://www.johnnyseeds.com/vegetables/corn/sugar-buns-f1-corn-seed-267.html?cgid=corn#start=1`,
                                 photo: `../static/corn_sugarbuns.jpg`
                             },
-
+    
                         ]
                     },
                     {
                         label: "Cucumber",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: "Lemon",
                                 description: `Pick at 1½-2½" diameter. This versatile cucumber is sweet and flavorful, and doesn't have much of the chemical that makes other cucumbers bitter and hard to digest. Though often served raw, Lemon is also a good pickling cucumber. Specialty market salad item. NOTE: Very late to begin bearing. Organically grown. Avg. 18,500 seeds/lb. Packet: 30 seeds.`,
                                 dtm: 65,
@@ -304,8 +294,7 @@
                     },
                     {
                         label: "Greens",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: "Arugula",
                                 description: `• Edible Flowers: The white flowers with dark pink veins are edible, and can be harvested as they appear. Sprinkle them over salads or add to vegetable stir-fries. Flavor is spicy and nutty. Popular choice for brightening up salad mixes.`,
                                 dtm: 21,
@@ -330,8 +319,7 @@
                     },
                     {
                         label: "Leeks",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: `Tadorna`,
                                 description: `A vigorous grower producing a medium-length white shank and contrasting, very dark blue-green foliage. Holds in the field for fall into winter harvest, and overwinters in moderate climates. Moderate leaf disease resistance. Select organic or conventional seeds. Organically grown. Avg. 10,600 seeds/oz. Packet: 250 seeds.`,
                                 dtm: 100,
@@ -349,8 +337,7 @@
                     },
                     {
                         label: "Melons",
-                        varieties: [
-                            {
+                        varieties: [{
                                 name: "Sugar Cube",
                                 description: `Sugar Cube lives up to its name with intensely sweet flavor. Boasts a strong disease package. Yields very uniform, heavily-netted 2-4 lb. fruits with deep-orange, aromatic flesh. Fruits are just a bit bigger than a softball. Compared to Tasty Bites, which it replaces, it performs better in the South because of added virus resistance. It is also slightly smaller and has a longer harvest period. Sugar Cube is well-suited for Northern and Southern growers. High resistance to Fusarium wilt races 0-2, powdery mildew, and watermelon mosaic virus; intermediate resistance to papaya ringspot virus and zucchini yellow mosaic virus. Avg. 20,300 seeds/lb. Packet: 30 seeds.`,
                                 dtm: 80,
@@ -373,7 +360,7 @@
                             }
                         ]
                     },
-                   {
+                    {
                         label: "Peas",
                         daysToMaturity: 28,
                         varieties: [{
@@ -392,78 +379,75 @@
                             }
                         ]
                     },
-                   {
-                       label: "Peppers",
-                       varieties:[
-                           {
-                               name: "Jedi",
-                               description: `Our largest jalapeno offering, Jedi's fruits avg. 4-4 1/2" and are slow to check (show small cracks in skin). Large plants. A couple of days later than Jalafuego, but with bigger fruits. Resistant to bacterial leaf spot races 1-3. Avg. 65,000 seeds/lb. Packet: 25 seeds.`,
-                               dtm: 72,
-                               link: `http://www.johnnyseeds.com/vegetables/peppers/jedi-f1-pepper-seed-3528.html?cgid=peppers#start=1`,
-                               photo: `../static/pepper_jedi.jpg`
-                           },
-                           {
-                               name: "Mad Hatter",
-                               description: `These unusually shaped peppers resemble a bishop's crown. Fruits avg. 2 1/4" in diameter and are borne on big, bushy plants. Moderately sweet flesh with floral and citrus notes and a touch of heat near the seed cavity. AAS winner. Avg. 55,000 seeds/lb. Packet: 25 seeds.`,
-                               dtm: 85,
-                               link: `http://www.johnnyseeds.com/vegetables/peppers/mad-hatter-f1-pepper-seed-3388.html?cgid=peppers#start=1`,
-                               photo: `../static/pepper_mad_hatter.jpg`
-                           },
-                           {
-                               name: `Biquinho Red`,
-                               description: `The small, pointed fruits avg. 1 1/4" and have a unique, slightly tart flavor with a tiny bit of heat. May be eaten raw or cooked, but is generally pickled in vinegar and served with meals. Fruits turn from very pale green to red. Quite popular in Brazil, where they originated. Avg. 79,400 seeds/lb. Packet: 25 seeds.`,
-                               dtm: 55,
-                               link: `http://www.johnnyseeds.com/vegetables/peppers/biquinho-red-pepper-seed-3380.html?cgid=peppers#start=1`,
-                               photo: `../static/pepper_biquinho_red.jpg`
-                           },
-                           {
-                               name: `Islander`,
-                               description: `3-lobed, medium-size, thick-fleshed bell peppers with a mild, slightly sweet taste. Fruits ripen through a showy stage of violet, yellow and orange streaks, eventually turning a rich, very dark red. Strong, medium-tall plants yield well. High resistance to tobacco mosaic virus. Avg. 3,900 seeds/oz. Packet: 25 seeds.`,
-                               dtm: 56,
-                               link: `http://www.johnnyseeds.com/vegetables/peppers/islander-f1-pepper-seed-591.html?cgid=peppers#start=1`,
-                               photo: `../static/pepper_islander.jpg`
-                           }
-                       ]
-                   },
-                   {
-                       label: "Radishes",
-                       varieties: [
-                           {
-                               name: `Nero Tondo`,
-                               description: `This elite strain is much more uniform and resistant to bolting than the ordinary Black Spanish variety. Large 2-4" (depending on harvest date) black-skinned, round roots with crisp, hot, white flesh. Suitable for sowing midspring (soil temp. 60°F/15°C or higher to prevent bolting) through fall. Thin to 4" apart. Avg. 50,300 seeds/lb. Packet: 250 seeds.`,
-                               dtm: 50,
-                               link: `http://www.johnnyseeds.com/vegetables/radishes/nero-tondo-radish-seed-616.html?cgid=radishes#start=1`,
-                               photo: `../static/radish_nerotondo.jpg`
-                           },
-                           {
-                               name: `Easter Egg`,
-                               description: `Make beautiful bunches with this mix of red, purple, and white round radishes. Maturing over an extended period of time, they stay crisp and mild even when large. Great fun for children and adults alike. Easter Egg II blend. Avg. 50,600 seeds/lb. Packet: 250 seeds.`,
-                               dtm: 30,
-                               link: `http://www.johnnyseeds.com/vegetables/radishes/easter-egg-radish-seed-617.html?cgid=radishes#start=1`,
-                               photo: `../static/radish_easteregg.jpg`
-                           }
-                       ]
-                   },
-                   {
-                       label: "Spinach",
-                       varieties: [
-                           {
-                               name: `Red Kitten`,
-                               description: `For baby leaf production in the early spring or full-size bunching in the fall and winter. Uniform, smooth leaves are borne on fairly upright plants. High resistance to downy mildew races 1-13, 15. Avg. 44,900 seeds/lb. Packet: 1,000 seeds.`,
-                               dtm: 28,
-                               link: `http://www.johnnyseeds.com/vegetables/spinach/red-kitten-f1-spinach-seed-3516.html?cgid=spinach#start=1`,
-                               photo: `../static/spinach_redkitten.jpg`
-                           },
-                           {
-                               name: `Flamingo`,
-                               description: `Uniform, smooth, dark-green leaves on long stems. A great choice for bunching. Slower bolting compared to other varieties of this type. High resistance to downy mildew races 1-11; intermediate resistance to races 12-13. Avg. 24,800 seeds/lb. Packet: 1,000 seeds.`,
-                               dtm: 27,
-                               link: `http://www.johnnyseeds.com/vegetables/spinach/flamingo-f1-spinach-seed-3914.html?cgid=spinach#start=1`,
-                               photo: `../static/spinach_flamingo.jpg`
-                           }
-                       ]
-                   },
-
+                    {
+                        label: "Peppers",
+                        varieties: [{
+                                name: "Jedi",
+                                description: `Our largest jalapeno offering, Jedi's fruits avg. 4-4 1/2" and are slow to check (show small cracks in skin). Large plants. A couple of days later than Jalafuego, but with bigger fruits. Resistant to bacterial leaf spot races 1-3. Avg. 65,000 seeds/lb. Packet: 25 seeds.`,
+                                dtm: 72,
+                                link: `http://www.johnnyseeds.com/vegetables/peppers/jedi-f1-pepper-seed-3528.html?cgid=peppers#start=1`,
+                                photo: `../static/pepper_jedi.jpg`
+                            },
+                            {
+                                name: "Mad Hatter",
+                                description: `These unusually shaped peppers resemble a bishop's crown. Fruits avg. 2 1/4" in diameter and are borne on big, bushy plants. Moderately sweet flesh with floral and citrus notes and a touch of heat near the seed cavity. AAS winner. Avg. 55,000 seeds/lb. Packet: 25 seeds.`,
+                                dtm: 85,
+                                link: `http://www.johnnyseeds.com/vegetables/peppers/mad-hatter-f1-pepper-seed-3388.html?cgid=peppers#start=1`,
+                                photo: `../static/pepper_mad_hatter.jpg`
+                            },
+                            {
+                                name: `Biquinho Red`,
+                                description: `The small, pointed fruits avg. 1 1/4" and have a unique, slightly tart flavor with a tiny bit of heat. May be eaten raw or cooked, but is generally pickled in vinegar and served with meals. Fruits turn from very pale green to red. Quite popular in Brazil, where they originated. Avg. 79,400 seeds/lb. Packet: 25 seeds.`,
+                                dtm: 55,
+                                link: `http://www.johnnyseeds.com/vegetables/peppers/biquinho-red-pepper-seed-3380.html?cgid=peppers#start=1`,
+                                photo: `../static/pepper_biquinho_red.jpg`
+                            },
+                            {
+                                name: `Islander`,
+                                description: `3-lobed, medium-size, thick-fleshed bell peppers with a mild, slightly sweet taste. Fruits ripen through a showy stage of violet, yellow and orange streaks, eventually turning a rich, very dark red. Strong, medium-tall plants yield well. High resistance to tobacco mosaic virus. Avg. 3,900 seeds/oz. Packet: 25 seeds.`,
+                                dtm: 56,
+                                link: `http://www.johnnyseeds.com/vegetables/peppers/islander-f1-pepper-seed-591.html?cgid=peppers#start=1`,
+                                photo: `../static/pepper_islander.jpg`
+                            }
+                        ]
+                    },
+                    {
+                        label: "Radishes",
+                        varieties: [{
+                                name: `Nero Tondo`,
+                                description: `This elite strain is much more uniform and resistant to bolting than the ordinary Black Spanish variety. Large 2-4" (depending on harvest date) black-skinned, round roots with crisp, hot, white flesh. Suitable for sowing midspring (soil temp. 60°F/15°C or higher to prevent bolting) through fall. Thin to 4" apart. Avg. 50,300 seeds/lb. Packet: 250 seeds.`,
+                                dtm: 50,
+                                link: `http://www.johnnyseeds.com/vegetables/radishes/nero-tondo-radish-seed-616.html?cgid=radishes#start=1`,
+                                photo: `../static/radish_nerotondo.jpg`
+                            },
+                            {
+                                name: `Easter Egg`,
+                                description: `Make beautiful bunches with this mix of red, purple, and white round radishes. Maturing over an extended period of time, they stay crisp and mild even when large. Great fun for children and adults alike. Easter Egg II blend. Avg. 50,600 seeds/lb. Packet: 250 seeds.`,
+                                dtm: 30,
+                                link: `http://www.johnnyseeds.com/vegetables/radishes/easter-egg-radish-seed-617.html?cgid=radishes#start=1`,
+                                photo: `../static/radish_easteregg.jpg`
+                            }
+                        ]
+                    },
+                    {
+                        label: "Spinach",
+                        varieties: [{
+                                name: `Red Kitten`,
+                                description: `For baby leaf production in the early spring or full-size bunching in the fall and winter. Uniform, smooth leaves are borne on fairly upright plants. High resistance to downy mildew races 1-13, 15. Avg. 44,900 seeds/lb. Packet: 1,000 seeds.`,
+                                dtm: 28,
+                                link: `http://www.johnnyseeds.com/vegetables/spinach/red-kitten-f1-spinach-seed-3516.html?cgid=spinach#start=1`,
+                                photo: `../static/spinach_redkitten.jpg`
+                            },
+                            {
+                                name: `Flamingo`,
+                                description: `Uniform, smooth, dark-green leaves on long stems. A great choice for bunching. Slower bolting compared to other varieties of this type. High resistance to downy mildew races 1-11; intermediate resistance to races 12-13. Avg. 24,800 seeds/lb. Packet: 1,000 seeds.`,
+                                dtm: 27,
+                                link: `http://www.johnnyseeds.com/vegetables/spinach/flamingo-f1-spinach-seed-3914.html?cgid=spinach#start=1`,
+                                photo: `../static/spinach_flamingo.jpg`
+                            }
+                        ]
+                    },
+    
                     {
                         // name of vegetable
                         label: "Tomato",
@@ -499,32 +483,31 @@
                             }
                         ]
                     },
-                   {
-                       label: "Turnips",
-                       varieties: [
-                           {
-                               name: `Niseko`,
-                               description: `Pure white salad turnip with exceptional eating quality. Niseko's flavor and light, crunchy texture rival Hakurei's. The round to slightly top-shaped roots are best eaten fresh. Resistant to club root. Heat tolerant. We recommend harvesting when roots are 2" in diameter. Avg. 222,800 seeds/lb. Packet: 400 seeds.`,
-                               dtm: 38,
-                               link: `http://www.johnnyseeds.com/vegetables/turnips/niseko-f1-turnip-seed-4394.html?cgid=turnips#start=1`,
-                               photo: `../static/turnip_niseko.jpg`
-                           },
-                           {
-                               name: `Purple Top White Globe`,
-                               description: `Selected strain of this traditional, Southern U.S. variety. Smooth, round roots, avg. 3-4" in diameter, are white below the soil line and bright purple above. Large, lobed greens. Organically grown. Avg. 276,650 seeds/lb. Packet: 400 seeds.`,
-                               dtm: 50,
-                               link: `http://www.johnnyseeds.com/vegetables/turnips/purple-top-white-globe-organic-turnip-seed-705G.html?cgid=turnips#start=1`,
-                               photo: `../static/turnip_purple_top_white_globe.jpg`
-                           }
-                       ]
-                   }
-                   
+                    {
+                        label: "Turnips",
+                        varieties: [{
+                                name: `Niseko`,
+                                description: `Pure white salad turnip with exceptional eating quality. Niseko's flavor and light, crunchy texture rival Hakurei's. The round to slightly top-shaped roots are best eaten fresh. Resistant to club root. Heat tolerant. We recommend harvesting when roots are 2" in diameter. Avg. 222,800 seeds/lb. Packet: 400 seeds.`,
+                                dtm: 38,
+                                link: `http://www.johnnyseeds.com/vegetables/turnips/niseko-f1-turnip-seed-4394.html?cgid=turnips#start=1`,
+                                photo: `../static/turnip_niseko.jpg`
+                            },
+                            {
+                                name: `Purple Top White Globe`,
+                                description: `Selected strain of this traditional, Southern U.S. variety. Smooth, round roots, avg. 3-4" in diameter, are white below the soil line and bright purple above. Large, lobed greens. Organically grown. Avg. 276,650 seeds/lb. Packet: 400 seeds.`,
+                                dtm: 50,
+                                link: `http://www.johnnyseeds.com/vegetables/turnips/purple-top-white-globe-organic-turnip-seed-705G.html?cgid=turnips#start=1`,
+                                photo: `../static/turnip_purple_top_white_globe.jpg`
+                            }
+                        ]
+                    }
+    
                 ],
                 currentVarieties: [],
                 vegetableArrayIndex: 0,
                 displayDate: null,
-                
-
+    
+    
             };
         },
     
@@ -538,12 +521,18 @@
                     arrayIndex: this.vegetableArrayIndex,
                     name: this.veggies[this.vegetableArrayIndex].varieties[index].name
                 })
-                var harvestDate =  this.checkMaturity(vegetable.dtm)
+                var harvestDate = this.checkMaturity(vegetable.dtm)
                 // console.log(harvestDate)
                 // var harvestSlice = harvestDate.toISOString().split('').slice(0,10).join('')
-                var slice = this.locationInfo.lastFrostDate.toISOString().split('').slice(0,10).join('')
+                var slice = this.locationInfo.lastFrostDate.toISOString().split('').slice(0, 10).join('')
                 console.log("slice", slice)
-                this.events.push({title: `Plant ${vegetable.name}`, start: slice},{title: `Harvest ${vegetable.name}`, start: harvestDate})
+                this.events.push({
+                    title: `Plant ${vegetable.name}`,
+                    start: slice
+                }, {
+                    title: `Harvest ${vegetable.name}`,
+                    start: harvestDate
+                })
             },
             showModal: function() {
                 this.$modal.show('calendar');
@@ -552,7 +541,7 @@
             },
             destroyCalendar: function() {
                 $('#calendar').destroy()
-                
+    
             },
             // the on change passes the selected item into function as `val`
             alert: function(index) {
@@ -574,7 +563,7 @@
             postData: function() {
                 $.post(
                     // "http://localhost:8081"
-                    "http://localhost:8081/postData", {
+                    "http://localhost:5000/postData", {
                         zipCode: this.zipCode
                     },
                     dataFromServer => {
@@ -649,8 +638,8 @@
             checkMaturity: function(dtm) {
                 const firstFrostDate = this.locationInfo.firstFrostDate;
                 const lastFrostDate = this.locationInfo.lastFrostDate;
-
-
+    
+    
                 // add the selected vegetables DTM to the current date
                 let todaysDate = new Date(lastFrostDate);
                 let maturityMath = ''
@@ -659,7 +648,7 @@
                 );
                 // turn maturityMath date into formatted string, maturityMath outputs time in mS
                 let maturityDate = new Date(maturityMath);
-                let isoDate = maturityDate.toISOString().split('').slice(0,10).join('')
+                let isoDate = maturityDate.toISOString().split('').slice(0, 10).join('')
                 // if the maturity date is before the first frost, the crop can grow
                 if (maturityDate <= firstFrostDate) {
                     console.log("You can grow");
@@ -711,7 +700,6 @@
         padding: 5px;
     }
     
-
     .logoTitleBar {
         grid-area: logoTitleBar;
         display: grid;
@@ -723,7 +711,7 @@
         font-size: 1.5rem;
         background-color: rgb(56, 158, 42);
     }
-
+    
     .logoTitleBar i {
         font-size: 2.5rem;
     }
@@ -756,17 +744,16 @@
         grid-area: varietyList;
         /* width: 100vw; */
         /* box-sizing: content-box;
-                            height: 50%;
-                            overflow: scroll; */
+                                height: 50%;
+                                overflow: scroll; */
         overflow: scroll;
         display: grid;
-        
     }
     
     .calendarView {
         grid-area: calendarView;
         /* overflow: auto;
-                            height: 50%; */
+                                height: 50%; */
         height: 100%;
         overflow: scroll;
     }
@@ -825,14 +812,13 @@
     
     .varieties {
         /* display: grid;
-        grid-template-rows: 1fr 1fr 1fr;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-areas: "varietyName varietyDescription varietyPhoto";
-        height: auto;
-        width: auto; */
-
-        justify-items: center; 
-        align-items: center; 
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-areas: "varietyName varietyDescription varietyPhoto";
+            height: auto;
+            width: auto; */
+        justify-items: center;
+        align-items: center;
         border: 1px solid black;
         border-radius: 10px;
         padding: 5px;
@@ -842,9 +828,9 @@
     
     .varietyName {
         /* grid-area: varietyName;
-        text-align: center;
-        align-items: center;
-        justify-items: center; */
+            text-align: center;
+            align-items: center;
+            justify-items: center; */
         margin-left: 5px;
     }
     
@@ -854,7 +840,7 @@
     
     .varietyDescription {
         /* grid-area: varietyDescription;
-        text-align: center; */
+            text-align: center; */
         margin-left: 5px;
     }
     
@@ -863,18 +849,18 @@
         height: 100px;
         width: 100px;
         align-items: center;
-            justify-content: center;
-            text-align: center;
-            float: center;
-            margin-top: 5px;
-            margin-left: 5px;
-            border-radius: 25%;
-    } 
+        justify-content: center;
+        text-align: center;
+        float: center;
+        margin-top: 5px;
+        margin-left: 5px;
+        border-radius: 25%;
+    }
     
     span {
-        margin:10px;
+        margin: 10px;
     }
-
+    
     ul {
         list-style: none;
     }
