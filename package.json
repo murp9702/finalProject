@@ -11,6 +11,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "path": "^0.12.7",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^3.0.6",
     "vue-full-calendar": "^2.5.1"
